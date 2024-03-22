@@ -14,3 +14,19 @@
  *= require_self
  */
  @import 'bootstrap/scss/bootstrap';
+
+
+#investment-form {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .btn-primary {
+    width: 100%;
+    margin-top: 10px;
+  }
+}

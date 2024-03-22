@@ -18,7 +18,7 @@ RUN npm install @babel/plugin-proposal-private-property-in-object --save
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
 
-RUN bundle install
+RUN gem install bundler:2.4.10 && bundle install
 
 COPY . /app
 

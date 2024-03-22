@@ -8,6 +8,8 @@ import Turbolinks from "turbolinks"
 import "channels"
 import 'bootstrap'
 import '../stylesheets/application'
+import "@hotwired/turbo-rails"
+import "controllers"
 
 
 Rails.start()

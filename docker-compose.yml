@@ -12,6 +12,8 @@ services:
       - db
     environment:
       RAILS_ENV: development
+      KEY: '54E4E332-178E-4549-9481-9D712AA32497'
+      KEY2: '79B0BCAF-8025-4892-BC6D-ACDE1CFC3349'
 
   db:
     image: mongo:latest
