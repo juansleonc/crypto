@@ -1,0 +1,9 @@
+<% results.each do |symbol, data| %>
+  <div class="col-md-4">
+    <h3><%= symbol.upcase %></h3>
+    <p>Precio Actual: <%= data[:price] %></p>
+    <p>Unidades Compradas: <%= data[:unidades] %></p>
+    <p>Valor Final Proyectado: <%= data[:valor_final] %></p>
+    <p>Ganancia: <%= data[:ganancia] %></p>
+  </div>
+<% end %>

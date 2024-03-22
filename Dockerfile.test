@@ -1,0 +1,18 @@
+ARG BASE_IMAGE
+
+FROM ${BASE_IMAGE}
+
+RUN apt-get install gnupg2 wget -y -qq
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | apt-key add -
+RUN echo "deb http://repo.mongodb.org/apt/debian bullseye/mongodb-org/5.0 main" | tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+RUN apt-get update -y
+RUN apt-get install mongodb-org -y
+
+COPY entrypoint-test.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint-test.sh
+ENTRYPOINT ["entrypoint-test.sh"]
+
+ENV RAILS_ENV test
+ENV rails_log_level DEBUG
+
+CMD ["bundle", "exec", "rspec", "--format", "progress", "--out", "/app/rspec.log"]

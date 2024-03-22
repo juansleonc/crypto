@@ -1,9 +1,9 @@
 version: '3'
 services:
-
   crypto:
     build: .
     command: bash -c "rails server -b '0.0.0.0'"
+    image: crypto:latest 
     volumes:
       - ".:/app"
     ports:
@@ -15,6 +15,21 @@ services:
       KEY: '54E4E332-178E-4549-9481-9D712AA32497'
       KEY2: '79B0BCAF-8025-4892-BC6D-ACDE1CFC3349'
 
+  crypto_test:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+      args:
+        BASE_IMAGE: crypto:latest
+    command: bash -c "rails server -b '0.0.0.0'"
+    volumes:
+      - ".:/app"
+    ports:
+      - "3001:3000" 
+    depends_on:
+      - db_test
+    environment:
+      RAILS_ENV: test
   db:
     image: mongo:latest
     ports:
@@ -25,5 +40,16 @@ services:
       MONGO_INITDB_ROOT_USERNAME: mongouser
       MONGO_INITDB_ROOT_PASSWORD: mongopassword
 
+  db_test:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo-data-test:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopassword
+
 volumes:
   mongo-data:
+  mongo-data-test:

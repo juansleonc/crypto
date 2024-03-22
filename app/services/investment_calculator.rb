@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class InvestmentCalculator
   def initialize(api_key)
@@ -18,14 +19,12 @@ class InvestmentCalculator
   def calculate_for_currency(symbol, inversion_inicial, retorno, lazy = false)
     if lazy
       current_time = Time.now
-      if @last_request_time && current_time - @last_request_time < 1
-        sleep(1 - (current_time - @last_request_time))
-      end
+      sleep(1 - (current_time - @last_request_time)) if @last_request_time && current_time - @last_request_time < 1
       @last_request_time = Time.now
     end
     price = @service.price_of(symbol)
     unidades = inversion_inicial / price
-    valor_final = unidades * price * (1 + retorno / 100) ** 12
+    valor_final = unidades * price * (1 + retorno / 100)**12
     ganancia = valor_final - inversion_inicial
     { price: price, unidades: unidades, valor_final: valor_final, ganancia: ganancia }
   end

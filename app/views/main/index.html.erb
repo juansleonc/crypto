@@ -1,12 +1,16 @@
 <div class="row">
   <div class="col-md-4">
     <h2>Configurar Inversión</h2>
-    <%= form_with url: calculate_index_path, id: "investment-form", data: { turbo_frame: "investment_results" } do |form| %>
-    <div class="mb-3">
-        <label for="inversion_total" class="form-label">Inversión Total (USD):</label>
-        <%= form.number_field :inversion_total, class: "form-control", min: 0, step: "any", id: "inversion_total" %>
-      </div>
-      <%= form.submit "Calcular", class: "btn btn-primary" %>
+
+    <%= turbo_frame_tag "investment_results" do %>
+      <%= form_with url: calculate_index_path, id: "investment-form", local: false do |form| %>
+
+      <div class="mb-3">
+          <label for="inversion_total" class="form-label">Inversión Total (USD):</label>
+          <%= form.number_field :inversion_total, class: "form-control", min: 0, step: "any", id: "inversion_total" %>
+        </div>
+        <%= form.submit "Calcular", class: "btn btn-primary" %>
+      <% end %>
     <% end %>
   </div>
 
@@ -17,15 +21,18 @@
       <%= link_to 'Descargar Resumen', download_investment_summary_path, class: "btn btn-secondary" %>
     </div>
     <div class="row">
-      <% @results.each do |symbol, data| %>
-        <div class="col-md-4">
-          <h3><%= symbol.upcase %></h3>
-          <p>Precio Actual: <%= data[:price] %></p>
-          <p>Unidades Compradas: <%= data[:unidades] %></p>
-          <p>Valor Final Proyectado: <%= data[:valor_final] %></p>
-          <p>Ganancia: <%= data[:ganancia] %></p>
-        </div>
-      <% end %>
+      <turbo-frame id="investment_results">
+        <% @results.each do |symbol, data| %>
+          <div class="col-md-4">
+            <h3><%= symbol.upcase %></h3>
+            <p>Precio Actual: <%= data[:price] %></p>
+            <p>Unidades Compradas: <%= data[:unidades] %></p>
+            <p>Valor Final Proyectado: <%= data[:valor_final] %></p>
+            <p>Ganancia: <%= data[:ganancia] %></p>
+          </div>
+        <% end %>
+      </turbo-frame>
+
     </div>
   </div>
 </div>
