@@ -10,11 +10,19 @@
     "@rails/webpacker": "5.4.4",
     "bootstrap": "^5.3.3",
     "turbolinks": "^5.2.0",
-    "webpack": "^4.46.0",
+    "webpack": "^5.91.0",
     "webpack-cli": "^3.3.12"
+  },
+  "plugins": [
+    "@babel/plugin-proposal-private-methods",
+    "@babel/plugin-proposal-private-property-in-object"
+  ],
+  "scripts": {
+    "clean-cache": "rm -rf node_modules/.cache/webpack"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "webpack-dev-server": "^3"
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "webpack-dev-server": "^5.0.4"
   }
 }

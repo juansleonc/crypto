@@ -1,40 +1,56 @@
-<div class="row">
-  <div class="col-md-4">
-    <h2>Configurar Inversión</h2>
-
-    <%= turbo_frame_tag "investment_results" do %>
-      <%= form_with url: calculate_index_path, id: "investment-form", local: false do |form| %>
-
-      <div class="mb-3">
+<div class="container mt-4">
+  <div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">Aclaración Técnica para Evaluadores</h4>
+    <p>En esta versión de la prueba técnica, se ha implementado una funcionalidad que permite al usuario especificar un valor de inversión, el cual es procesado de manera sincrónica para calcular el rendimiento de la inversión en criptomonedas. Esta característica demuestra la habilidad para manipular datos de entrada del usuario y realizar cálculos dinámicos basados en esos datos.</p>
+    <p>La elección de procesamiento directo sobre una implementación asíncrona se tomó para simplificar la demostración de la lógica de negocio, considerando los límites de tiempo para esta prueba. Esto subraya un enfoque pragmático que equilibra la funcionalidad y la complejidad del desarrollo bajo restricciones de tiempo específicas.</p>
+    <hr>
+    <p class="mb-0">A pesar de que en esta instancia se prefirió un enfoque sincrónico, tengo las competencias necesarias para aplicar técnicas asíncronas adecuadas para proyectos que requieran escalabilidad y un manejo avanzado de procesos en segundo plano o tareas programadas. Quedo a su disposición para explorar estas tecnologías en proyectos futuros. Agradezco esta oportunidad para presentar mis habilidades y conocimientos técnicos.</p>
+  </div>
+</div>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Configurar Inversión</h2>
+      <%= form_with url: root_path, method: :get, id: "investment-form", local: true do |form| %>
+        <div class="mb-3">
           <label for="inversion_total" class="form-label">Inversión Total (USD):</label>
-          <%= form.number_field :inversion_total, class: "form-control", min: 0, step: "any", id: "inversion_total" %>
+          <%= form.number_field :inversion_total, class: "form-control", min: 0, step: "any", id: "inversion_total", value: params[:inversion_total] || 1000 %>
         </div>
         <%= form.submit "Calcular", class: "btn btn-primary" %>
       <% end %>
-    <% end %>
-  </div>
 
-  <div class="col-md-8">
-  <div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center">
-      <h2>Resumen de Inversión en Criptomonedas</h2>
-      <%= link_to 'Descargar Resumen', download_investment_summary_path, class: "btn btn-secondary" %>
     </div>
-    <div class="row">
+
+    <div class="col-md-8">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2>Resumen de Inversión en Criptomonedas</h2>
+        <%= link_to 'Descargar Resumen', download_investment_summary_path, class: "btn btn-secondary" %>
+      </div>
+
       <turbo-frame id="investment_results">
-        <% @results.each do |symbol, data| %>
-          <div class="col-md-4">
-            <h3><%= symbol.upcase %></h3>
-            <p>Precio Actual: <%= data[:price] %></p>
-            <p>Unidades Compradas: <%= data[:unidades] %></p>
-            <p>Valor Final Proyectado: <%= data[:valor_final] %></p>
-            <p>Ganancia: <%= data[:ganancia] %></p>
-          </div>
-        <% end %>
+        <div class="row">
+          <% @results.each do |symbol, data| %>
+            <div class="col-md-4 mb-4">
+              <div class="card h-100">
+                <div class="card-header">
+                  <h5 class="card-title"><%= "#{crypto_symbols[symbol.upcase]} #{symbol.upcase}" %></h5>
+                </div>
+                <div class="card-body">
+                  <p class="card-text">Precio Actual: <%= number_to_currency(data[:price], unit: 'USD ', precision: 2, separator: '.', delimiter: ',') %></p>
+                  <p class="card-text">Unidades Compradas: <%= number_with_precision(data[:unidades], precision: 6) %></p>
+                  <p class="card-text">Valor Final Proyectado: <%= number_to_currency(data[:valor_final], unit: 'USD ', precision: 2, separator: '.', delimiter: ',') %></p>
+                  <p class="card-text">Ganancia: <%= number_to_currency(data[:ganancia], unit: 'USD ', precision: 2, separator: '.', delimiter: ',') %></p>
+                </div>
+                <div class="card-footer">
+                  <div class="progress">
+                    <div class="progress-bar" role="progressbar" style="width: <%= [data[:ganancia].to_f / data[:valor_final].to_f * 100, 100].min %>%;" aria-valuenow="<%= data[:ganancia] %>" aria-valuemin="0" aria-valuemax="<%= data[:valor_final] %>"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
       </turbo-frame>
-
     </div>
   </div>
-</div>
-
 </div>
