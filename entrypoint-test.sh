@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e
 
-# Then exec the container's main process (what's set as CMD in the Dockerfile).
+mongod --fork --logpath /var/log/mongodb.log --logappend
+rake db:mongoid:drop
+
 exec "$@"
