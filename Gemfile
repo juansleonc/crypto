@@ -20,14 +20,13 @@ gem 'webpacker', '~> 5.0'
 group :development, :test do
   gem 'bullet'
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'database_cleaner-mongoid'
   gem 'factory_bot_rails', '~> 6.0'
   gem 'faker'
   gem 'mongoid-rspec'
   gem 'rspec-rails', '~> 5.0.0'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'webmock'
-  gem 'database_cleaner-mongoid'
-
 end
 
 group :development do

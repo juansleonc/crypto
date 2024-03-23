@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MainController < ApplicationController
   before_action :authenticate_user!
   before_action :load_coins, only: [:index]

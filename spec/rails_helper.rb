@@ -30,7 +30,7 @@ WebMock.disable_net_connect!(allow_localhost: true)
 RSpec.configure do |config|
   config.include Mongoid::Matchers, type: :model
   config.include FactoryBot::Syntax::Methods
-   config.before(:suite) do
+  config.before(:suite) do
     DatabaseCleaner[:mongoid].strategy = :deletion
   end
   config.before(:each) do
