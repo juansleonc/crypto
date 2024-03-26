@@ -17,7 +17,6 @@ class MainController < ApplicationController
   private
 
   def load_coins
-    byebug
     @results = calculate_investment(investment_amount_from_params)
   end
 
